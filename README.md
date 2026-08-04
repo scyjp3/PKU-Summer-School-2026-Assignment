@@ -3,7 +3,7 @@
 
 This repository contains all coursework completed during the **Peking University Summer School** program for the course **"Python Language Fundamentals and Artificial Intelligence Applications"** (Python语言基础与人工智能应用).
 
-The coursework spans a progressive series of assignments (K0–K7), a comprehensive programming project (CMP), a Harry Potter–themed assignment submission website, and a final group project (FIN).
+The coursework spans a progressive series of assignments (K0–K7), a comprehensive programming project (CMP), a Harry Potter–themed assignment submission website, and a final group project (FindMyLab).
 
 ---
 
@@ -21,7 +21,6 @@ The coursework spans a progressive series of assignments (K0–K7), a comprehens
 | [`HW_K7/`](./HW_K7) | Advanced functions — recursion, comprehensions, generators |
 | [`【CMP】/`](./【CMP】) | Comprehensive project — Harry Potter–style frontend (HTML/CSS/JS) |
 | [`【CMP】_all/`](./【CMP】_all) | Full CMP package (source + user manual + API docs) |
-| [`【Fin】期末分组大作业/`](./【Fin】期末分组大作业) | Final group project —— FindMyLab |
 
 ---
 
