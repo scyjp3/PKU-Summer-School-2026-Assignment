@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKU作业提交通道 - 作业详情</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="nav-bar">
+        <div class="logo">
+            <i class="fas fa-hat-wizard"></i> PKU
+        </div>
+        <div class="user-info">
+            <button class="btn btn-secondary btn-small" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> 返回主页
+            </button>
+            <button class="btn btn-secondary btn-small" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> 退出
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="loading" style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--hogwarts-gold);"></i>
+            <p style="margin-top: 15px;">正在加载作业详情...</p>
+        </div>
+
+        <div id="content" style="display: none;">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                    <h2 id="assignment-title"></h2>
+                    <span class="status" id="assignment-status"></span>
+                </div>
+                
+                <div class="meta">
+                    <span><i class="fas fa-calendar"></i> 截止时间: <span id="assignment-deadline"></span></span>
+                    <span><i class="fas fa-star"></i> 满分: <span id="assignment-max-score"></span></span>
+                    <span id="assignment-allow-late"></span>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h3 style="color: var(--hogwarts-gold); margin-bottom: 10px;">作业说明</h3>
+                    <div id="assignment-description" style="color: var(--parchment); line-height: 1.8;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-upload"></i> 提交状态</h2>
+                <div id="submission-status">
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-history"></i> 提交历史</h2>
+                <ul class="assignment-list" id="submission-history">
+                </ul>
+                <div id="empty-history" style="display: none; text-align: center; padding: 40px; color: var(--parchment-dark);">
+                    <i class="fas fa-clock" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                    <p>暂无提交记录</p>
+                </div>
+            </div>
+
+            <div class="card" id="grade-section" style="display: none;">
+                <h2><i class="fas fa-award"></i> 成绩详情</h2>
+                <div id="grade-details">
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-clipboard-list"></i> K系列作业提交格式</h2>
+                <p style="color: var(--parchment-dark); margin-bottom: 20px;">
+                    提交K系列作业时，请按照以下格式准备文件：
+                </p>
+                <ol style="list-style: none; padding: 0;">
+                    <li style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(26, 26, 46, 0.5); border-radius: 8px; border-left: 3px solid var(--hogwarts-gold);">
+                        <span style="color: var(--hogwarts-gold); font-weight: 700; font-size: 1.1rem; min-width: 24px;">1、</span>
+                        <div style="flex: 1;">
+                            <div style="color: var(--hogwarts-gold); font-weight: 600; margin-bottom: 5px;">
+                                <i class="fas fa-folder"></i> 创建作业文件夹
+                            </div>
+                            <div style="color: var(--parchment-dark); font-size: 0.9rem;">为每个K系列作业创建单独的文件夹，名称为K0、K1、K2等</div>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(26, 26, 46, 0.5); border-radius: 8px; border-left: 3px solid var(--hogwarts-gold);">
+                        <span style="color: var(--hogwarts-gold); font-weight: 700; font-size: 1.1rem; min-width: 24px;">2、</span>
+                        <div style="flex: 1;">
+                            <div style="color: var(--hogwarts-gold); font-weight: 600; margin-bottom: 5px;">
+                                <i class="fas fa-file-alt"></i> 作业说明 (intro.md)
+                            </div>
+                            <div style="color: var(--parchment-dark); font-size: 0.9rem;">包含作业的详细说明和完成情况</div>
+                            <div style="margin-top: 8px; padding: 4px 10px; background: rgba(211, 166, 37, 0.1); border-radius: 3px; font-size: 0.85rem; display: inline-block;">对应API提交字段：text</div>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(26, 26, 46, 0.5); border-radius: 8px; border-left: 3px solid #ff6b6b;">
+                        <span style="color: #ff6b6b; font-weight: 700; font-size: 1.1rem; min-width: 24px;">3、</span>
+                        <div style="flex: 1;">
+                            <div style="color: #ff6b6b; font-weight: 600; margin-bottom: 5px;">
+                                <i class="fas fa-file-pdf"></i> 作业内容 (content.pdf)
+                            </div>
+                            <div style="color: var(--parchment-dark); font-size: 0.9rem;">由content.md生成的PDF文档</div>
+                            <div style="margin-top: 8px; padding: 4px 10px; background: rgba(255, 107, 107, 0.1); border-radius: 3px; font-size: 0.85rem; display: inline-block;">对应API提交字段：file</div>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(26, 26, 46, 0.5); border-radius: 8px; border-left: 3px solid #4CAF50;">
+                        <span style="color: #4CAF50; font-weight: 700; font-size: 1.1rem; min-width: 24px;">4、</span>
+                        <div style="flex: 1;">
+                            <div style="color: #4CAF50; font-weight: 600; margin-bottom: 5px;">
+                                <i class="fas fa-comments"></i> AI对话记录 (LLM_chat_log.md)
+                            </div>
+                            <div style="color: var(--parchment-dark); font-size: 0.9rem;">记录您与AI的交互过程</div>
+                            <div style="margin-top: 8px; padding: 4px 10px; background: rgba(76, 175, 80, 0.1); border-radius: 3px; font-size: 0.85rem; display: inline-block;">对应API提交字段：LLM_chat_log</div>
+                        </div>
+                    </li>
+                </ol>
+
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-primary" style="flex: 1;" id="submit-btn">
+                        <i class="fas fa-upload"></i> 提交作业
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        const api = new CourseAPI();
+        let assignmentId = null;
+
+        async function init() {
+            if (!api.token) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const params = new URLSearchParams(window.location.search);
+            assignmentId = params.get('id');
+
+            if (!assignmentId) {
+                alert('请选择一个作业');
+                goBack();
+                return;
+            }
+
+            try {
+                const [assignment, submissions] = await Promise.all([
+                    api.getAssignment(assignmentId),
+                    api.getSubmissions(assignmentId).catch(() => [])
+                ]);
+
+                renderAssignment(assignment);
+                renderSubmissionHistory(submissions);
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+            } catch (error) {
+                console.error('加载失败:', error);
+                alert('加载作业详情失败');
+                goBack();
+            }
+        }
+
+        function renderAssignment(assignment) {
+            document.getElementById('assignment-title').textContent = assignment.title;
+            
+            const statusText = assignment.status === 'published' ? '进行中' : 
+                              assignment.status === 'closed' ? '已截止' : '草稿';
+            const statusClass = `status-${assignment.status}`;
+            const statusEl = document.getElementById('assignment-status');
+            statusEl.textContent = statusText;
+            statusEl.className = `status ${statusClass}`;
+            
+            document.getElementById('assignment-deadline').textContent = formatDeadline(assignment.deadline);
+            document.getElementById('assignment-max-score').textContent = assignment.max_score;
+            document.getElementById('assignment-allow-late').textContent = assignment.allow_late ? '<i class="fas fa-clock"></i> 允许迟交' : '';
+            document.getElementById('assignment-description').textContent = assignment.description;
+
+            const canSubmit = canSubmitAssignment(assignment);
+            const submitBtn = document.getElementById('submit-btn');
+            if (!canSubmit) {
+                submitBtn.textContent = '作业已关闭或不可提交';
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.5';
+            }
+
+            renderSubmissionStatus(assignment);
+            
+            if (assignment.grade && assignment.grade.published) {
+                renderGrade(assignment.grade, assignment.max_score);
+            }
+        }
+
+        function renderSubmissionStatus(assignment) {
+            const status = assignment.submission_status;
+            const container = document.getElementById('submission-status');
+
+            if (!status || !status.submitted) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: var(--parchment-dark);">
+                        <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <p>您尚未提交此作业</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--hogwarts-gold);">已提交</div>
+                        <div style="color: var(--parchment-dark); margin-top: 5px;">版本: v${status.latest_version}</div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="color: var(--parchment-dark);">提交时间</div>
+                        <div style="color: var(--parchment);">${new Date(status.submitted_at).toLocaleString('zh-CN')}</div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="color: var(--parchment-dark);">状态</div>
+                        <div style="${status.is_late ? 'color: #ff6b6b;' : 'color: #4CAF50;'}">
+                            ${status.is_late ? '<i class="fas fa-exclamation-triangle"></i> 迟交' : '<i class="fas fa-check-circle"></i> 按时提交'}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSubmissionHistory(submissions) {
+            const list = document.getElementById('submission-history');
+            list.innerHTML = '';
+
+            if (submissions.length === 0) {
+                document.getElementById('empty-history').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('empty-history').style.display = 'none';
+
+            submissions.forEach(submission => {
+                const item = document.createElement('li');
+                item.className = 'assignment-item';
+
+                let fileInfo = '';
+                if (submission.file) {
+                    fileInfo = `
+                        <div style="margin-top: 10px;">
+                            <div style="color: var(--parchment-dark); font-size: 0.85rem;">
+                                <i class="fas fa-file"></i> ${submission.file.original_name} (${formatFileSize(submission.file.size)})
+                            </div>
+                        </div>
+                    `;
+                }
+
+                let chatLogInfo = '';
+                if (submission.LLM_chat_log) {
+                    chatLogInfo = `
+                        <div style="margin-top: 5px;">
+                            <div style="color: var(--parchment-dark); font-size: 0.85rem;">
+                                <i class="fas fa-comments"></i> ${submission.LLM_chat_log.original_name} (${formatFileSize(submission.LLM_chat_log.size)})
+                            </div>
+                        </div>
+                    `;
+                }
+
+                let textInfo = '';
+                if (submission.text) {
+                    textInfo = `
+                        <div style="margin-top: 5px; padding: 10px; background: rgba(26, 26, 46, 0.5); border-radius: 5px;">
+                            <div style="color: var(--parchment-dark); font-size: 0.85rem; margin-bottom: 5px;">作业说明:</div>
+                            <div style="color: var(--parchment); font-size: 0.9rem; max-height: 100px; overflow-y: auto;">${submission.text}</div>
+                        </div>
+                    `;
+                }
+
+                item.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <h3>版本 v${submission.version}</h3>
+                        <span style="${submission.is_late ? 'color: #ff6b6b;' : 'color: #4CAF50;'}">
+                            ${submission.is_late ? '<i class="fas fa-exclamation-triangle"></i> 迟交' : '<i class="fas fa-check-circle"></i> 按时'}
+                        </span>
+                    </div>
+                    <div class="meta">
+                        <span><i class="fas fa-calendar"></i> ${new Date(submission.submitted_at).toLocaleString('zh-CN')}</span>
+                    </div>
+                    ${textInfo}
+                    ${fileInfo}
+                    ${chatLogInfo}
+                `;
+
+                list.appendChild(item);
+            });
+        }
+
+        function renderGrade(grade, maxScore) {
+            const section = document.getElementById('grade-section');
+            section.style.display = 'block';
+
+            const percentage = maxScore > 0 ? ((grade.score / maxScore) * 100).toFixed(1) : 0;
+
+            document.getElementById('grade-details').innerHTML = `
+                <div style="display: flex; flex-wrap: wrap; gap: 30px; align-items: center;">
+                    <div>
+                        <div class="score-display">
+                            ${grade.score} <span class="max-score">/ ${maxScore}</span>
+                        </div>
+                        <div style="color: var(--parchment-dark);">(${percentage}%)</div>
+                    </div>
+                    ${grade.feedback ? `
+                        <div style="flex: 1; min-width: 300px;">
+                            <div style="color: var(--hogwarts-gold); margin-bottom: 5px;">评语:</div>
+                            <div class="feedback" style="border: none; padding: 0;">${grade.feedback}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function canSubmitAssignment(assignment) {
+            if (assignment.status === 'draft' || assignment.status === 'closed') {
+                return false;
+            }
+
+            const now = new Date();
+            const deadline = new Date(assignment.deadline);
+
+            if (now <= deadline) {
+                return true;
+            }
+
+            return assignment.allow_late;
+        }
+
+        function formatDeadline(deadlineStr) {
+            const date = new Date(deadlineStr);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function goBack() {
+            window.location.href = 'dashboard.html';
+        }
+
+        function logout() {
+            api.clearToken();
+            window.location.href = 'index.html';
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', () => {
+            window.location.href = `submit.html?id=${assignmentId}`;
+        });
+
+        init();
+    </script>
+</body>
+</html>

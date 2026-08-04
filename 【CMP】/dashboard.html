@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKU作业提交通道 - 个人主页</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 哈利波特装饰元素（固定在页面位置，不跟随视窗） -->
+    <div class="hp-decorations">
+        <!-- 优雅金色飞贼 -->
+        <div class="golden-snitch">
+            <div class="snitch-body"></div>
+            <div class="snitch-wing left"></div>
+            <div class="snitch-wing right"></div>
+            <div class="snitch-glow"></div>
+        </div>
+        <!-- 飞翔的羽毛（猫头鹰信使） -->
+        <div class="flying-owl">
+            <i class="fas fa-feather"></i>
+        </div>
+        <!-- 漂浮蜡烛 -->
+        <div class="floating-candle candle-1">
+            <div class="flame"></div>
+        </div>
+        <div class="floating-candle candle-2">
+            <div class="flame"></div>
+        </div>
+        <div class="floating-candle candle-3">
+            <div class="flame"></div>
+        </div>
+        <!-- 魔法闪烁星 -->
+        <div class="magic-sparkle sparkle-1">✦</div>
+        <div class="magic-sparkle sparkle-2">✧</div>
+        <div class="magic-sparkle sparkle-3">✦</div>
+        <div class="magic-sparkle sparkle-4">✧</div>
+        <div class="magic-sparkle sparkle-5">✦</div>
+    </div>
+
+    <nav class="nav-bar">
+        <div class="logo">
+            <i class="fas fa-hat-wizard"></i> PKU
+        </div>
+        <div class="user-info">
+            <span id="user-name"></span>
+            <span id="user-id"></span>
+            <button class="btn btn-secondary btn-small" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> 退出
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-scroll"></i> 学生个人主页 <i class="fas fa-hat-wizard" style="font-size: 0.8em;"></i></h1>
+            <p class="subtitle">Student Dashboard</p>
+        </header>
+
+        <div id="stats-loading" style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--hogwarts-gold);"></i>
+            <p style="margin-top: 15px;">正在加载您的学习进度...</p>
+        </div>
+
+        <div id="stats-section" style="display: none;">
+            <div class="dashboard-grid">
+                <div class="card stat-card">
+                    <div class="stat-value" id="stat-assignment-count">0</div>
+                    <div class="stat-label"><i class="fas fa-book-open"></i> 作业总数</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="stat-submitted-count">0</div>
+                    <div class="stat-label"><i class="fas fa-check-circle"></i> 已提交</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="stat-on-time-count">0</div>
+                    <div class="stat-label"><i class="fas fa-clock"></i> 按时提交</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="stat-graded-count">0</div>
+                    <div class="stat-label"><i class="fas fa-star"></i> 已评分</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-chart-bar"></i> 成绩统计 <i class="fas fa-wand-magic-sparkles" style="font-size: 0.7em;"></i></h2>
+                <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+                    <div>
+                        <div class="score-display">
+                            <span id="stat-total-score">0</span>
+                            <span class="max-score">/ <span id="stat-total-max">0</span></span>
+                        </div>
+                        <div style="color: var(--parchment-dark); margin-top: 5px;">总分</div>
+                    </div>
+                    <div>
+                        <div class="score-display">
+                            <span id="stat-average">0</span><span style="font-size: 1rem;">%</span>
+                        </div>
+                        <div style="color: var(--parchment-dark); margin-top: 5px;">平均分</div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="color: var(--parchment-dark); margin-bottom: 8px;">完成进度</div>
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-bar" style="width: 0%;"></div>
+                        </div>
+                        <div style="text-align: right; color: var(--hogwarts-gold); margin-top: 5px;">
+                            <span id="progress-text">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="assignments-loading" style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--hogwarts-gold);"></i>
+            <p style="margin-top: 15px;">正在获取作业列表...</p>
+        </div>
+
+        <div id="assignments-section" style="display: none;">
+            <div class="card">
+                <h2><i class="fas fa-tasks"></i> 作业列表 <i class="fas fa-book-bookmark" style="font-size: 0.7em;"></i></h2>
+                
+                <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary btn-small" onclick="filterAssignments('all')">全部</button>
+                    <button class="btn btn-secondary btn-small" onclick="filterAssignments('published')">进行中</button>
+                    <button class="btn btn-secondary btn-small" onclick="filterAssignments('closed')">已截止</button>
+                    <button class="btn btn-secondary btn-small" onclick="filterAssignments('unsubmitted')">未提交</button>
+                </div>
+
+                <ul class="assignment-list" id="assignment-list">
+                </ul>
+
+                <div id="empty-assignments" style="display: none; text-align: center; padding: 40px; color: var(--parchment-dark);">
+                    <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                    <p>暂无作业</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="grades-section" style="display: none;">
+            <div class="card">
+                <h2><i class="fas fa-award"></i> 已发布成绩 <i class="fas fa-trophy" style="font-size: 0.7em;"></i></h2>
+                <ul class="assignment-list" id="grades-list">
+                </ul>
+                <div id="empty-grades" style="display: none; text-align: center; padding: 40px; color: var(--parchment-dark);">
+                    <i class="fas fa-trophy" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                    <p>暂无已发布成绩</p>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align: center; padding: 30px; color: var(--parchment-dark); font-size: 0.85rem;">
+            <p><i class="fas fa-sparkles"></i> PKU作业提交通道 <i class="fas fa-sparkles"></i></p>
+        </footer>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        const api = new CourseAPI();
+        let currentAssignments = [];
+        let currentFilter = 'all';
+
+        async function init() {
+            if (!api.token) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const [userInfo, studentInfo, assignments, summary, grades] = await Promise.all([
+                    api.getMe(),
+                    api.getStudentInfo(),
+                    api.getAssignments(),
+                    api.getStudentSummary(),
+                    api.getGrades()
+                ]);
+
+                renderUserInfo(userInfo, studentInfo);
+                renderStats(summary);
+                renderAssignments(assignments);
+                renderGrades(grades);
+
+                document.getElementById('stats-loading').style.display = 'none';
+                document.getElementById('stats-section').style.display = 'block';
+                document.getElementById('assignments-loading').style.display = 'none';
+                document.getElementById('assignments-section').style.display = 'block';
+                document.getElementById('grades-section').style.display = 'block';
+            } catch (error) {
+                console.error('初始化失败:', error);
+                alert('获取数据失败，请重新登录');
+                logout();
+            }
+        }
+
+        function renderUserInfo(user, student) {
+            document.getElementById('user-name').textContent = `欢迎, ${student.name}`;
+            document.getElementById('user-id').textContent = `学号: ${student.student_id}`;
+        }
+
+        function renderStats(summary) {
+            document.getElementById('stat-assignment-count').textContent = summary.assignment_count;
+            document.getElementById('stat-submitted-count').textContent = summary.submitted_count;
+            document.getElementById('stat-on-time-count').textContent = summary.on_time_count;
+            document.getElementById('stat-graded-count').textContent = summary.graded_count;
+            
+            document.getElementById('stat-total-score').textContent = summary.total_score;
+            document.getElementById('stat-total-max').textContent = summary.total_max_score;
+            
+            const average = summary.average_percentage || 0;
+            document.getElementById('stat-average').textContent = average.toFixed(1);
+            
+            const progress = summary.assignment_count > 0 
+                ? (summary.submitted_count / summary.assignment_count) * 100 
+                : 0;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${progress.toFixed(0)}%`;
+        }
+
+        function renderAssignments(assignments) {
+            currentAssignments = assignments;
+            
+            const list = document.getElementById('assignment-list');
+            list.innerHTML = '';
+
+            if (assignments.length === 0) {
+                document.getElementById('empty-assignments').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('empty-assignments').style.display = 'none';
+
+            const filtered = filterAssignmentsData(assignments, currentFilter);
+
+            filtered.forEach(assignment => {
+                const item = document.createElement('li');
+                item.className = 'assignment-item';
+
+                const statusClass = `status-${assignment.status}`;
+                const statusText = assignment.status === 'published' ? '进行中' : 
+                                  assignment.status === 'closed' ? '已截止' : '草稿';
+                
+                const canSubmit = canSubmitAssignment(assignment);
+                
+                const submissionInfo = assignment.submission_status;
+                let submissionText = '';
+                if (submissionInfo && submissionInfo.submitted) {
+                    submissionText = `
+                        <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(211, 166, 37, 0.2);">
+                            <div style="color: var(--hogwarts-gold);">已提交 v${submissionInfo.latest_version}</div>
+                            <div style="color: var(--parchment-dark); font-size: 0.85rem;">
+                                ${submissionInfo.submitted_at ? new Date(submissionInfo.submitted_at).toLocaleString('zh-CN') : ''}
+                                ${submissionInfo.is_late ? ' <span style="color: #ff6b6b;">(迟交)</span>' : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const gradeInfo = assignment.grade_status;
+                let gradeText = '';
+                if (gradeInfo && gradeInfo.published && gradeInfo.score !== null) {
+                    gradeText = `
+                        <div style="margin-top: 10px; padding: 10px; background: rgba(76, 175, 80, 0.1); border-radius: 5px; border-left: 3px solid #4CAF50;">
+                            <div style="color: var(--hogwarts-gold); font-weight: 600;">成绩: ${gradeInfo.score} / ${assignment.max_score}</div>
+                        </div>
+                    `;
+                }
+
+                item.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <h3>${assignment.title}</h3>
+                        <span class="status ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="description-container" data-assignment-id="${assignment.id}">
+                        <p class="description-text collapsed">${assignment.description}</p>
+                        <button class="description-toggle">
+                            <span>展开</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="meta">
+                        <span><i class="fas fa-calendar"></i> 截止: ${formatDeadline(assignment.deadline)}</span>
+                        <span><i class="fas fa-star"></i> 满分: ${assignment.max_score}</span>
+                        ${assignment.allow_late ? '<span><i class="fas fa-clock"></i> 允许迟交</span>' : ''}
+                    </div>
+                    ${submissionText}
+                    ${gradeText}
+                    <div class="actions">
+                        <button class="btn btn-secondary btn-small" onclick="viewAssignment(${assignment.id})">
+                            <i class="fas fa-eye"></i> 详情
+                        </button>
+                        ${canSubmit ? `
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button class="btn btn-primary btn-small" onclick="submitAssignment(${assignment.id})">
+                                    <i class="fas fa-upload"></i> 提交作业
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+
+                list.appendChild(item);
+            });
+            
+            initDescriptionCollapse();
+        }
+        
+        function initDescriptionCollapse() {
+            const containers = document.querySelectorAll('.description-container');
+            containers.forEach(container => {
+                const desc = container.querySelector('.description-text');
+                const toggle = container.querySelector('.description-toggle');
+                
+                if (desc && toggle) {
+                    const lineHeight = parseFloat(getComputedStyle(desc).lineHeight) || 24;
+                    const threeLinesHeight = 3 * lineHeight;
+                    
+                    desc.classList.add('collapsed');
+                    desc.style.maxHeight = threeLinesHeight + 'px';
+                    
+                    toggle.addEventListener('click', () => {
+                        const isExpanded = desc.classList.contains('expanded');
+                        if (isExpanded) {
+                            desc.classList.remove('expanded');
+                            desc.classList.add('collapsed');
+                            desc.style.maxHeight = threeLinesHeight + 'px';
+                            toggle.querySelector('span').textContent = '展开';
+                            toggle.classList.remove('expanded');
+                        } else {
+                            desc.classList.remove('collapsed');
+                            desc.classList.add('expanded');
+                            desc.style.maxHeight = '2000px';
+                            toggle.querySelector('span').textContent = '收起';
+                            toggle.classList.add('expanded');
+                        }
+                    });
+                }
+            });
+        }
+
+        function renderGrades(grades) {
+            const list = document.getElementById('grades-list');
+            list.innerHTML = '';
+
+            if (grades.length === 0) {
+                document.getElementById('empty-grades').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('empty-grades').style.display = 'none';
+
+            grades.forEach(grade => {
+                const item = document.createElement('li');
+                item.className = 'assignment-item';
+
+                const percentage = grade.max_score > 0 ? ((grade.score / grade.max_score) * 100).toFixed(1) : 0;
+
+                const gradeTitle = grade.assignment_title || grade.title || '未知作业';
+
+                item.innerHTML = `
+                    <h3>${gradeTitle}</h3>
+                    <div class="meta">
+                        <span><i class="fas fa-award"></i> 得分: ${grade.score} / ${grade.max_score} (${percentage}%)</span>
+                        <span><i class="fas fa-calendar"></i> 发布时间: ${grade.published_at ? new Date(grade.published_at).toLocaleString('zh-CN') : ''}</span>
+                    </div>
+                    ${grade.feedback ? `
+                        <div class="feedback">
+                            <div style="color: var(--hogwarts-gold); margin-bottom: 5px;">评语:</div>
+                            <div>${grade.feedback}</div>
+                        </div>
+                    ` : ''}
+                `;
+
+                list.appendChild(item);
+            });
+        }
+
+        function filterAssignments(filter) {
+            currentFilter = filter;
+            renderAssignments(currentAssignments);
+        }
+
+        function filterAssignmentsData(assignments, filter) {
+            switch (filter) {
+                case 'published':
+                    return assignments.filter(a => a.status === 'published');
+                case 'closed':
+                    return assignments.filter(a => a.status === 'closed');
+                case 'unsubmitted':
+                    return assignments.filter(a => !a.submission_status || !a.submission_status.submitted);
+                default:
+                    return assignments;
+            }
+        }
+
+        function canSubmitAssignment(assignment) {
+            if (assignment.status === 'draft' || assignment.status === 'closed') {
+                return false;
+            }
+
+            const now = new Date();
+            const deadline = new Date(assignment.deadline);
+
+            if (now <= deadline) {
+                return true;
+            }
+
+            return assignment.allow_late;
+        }
+
+        function formatDeadline(deadlineStr) {
+            const date = new Date(deadlineStr);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function viewAssignment(assignmentId) {
+            window.location.href = `assignment.html?id=${assignmentId}`;
+        }
+
+        function submitAssignment(assignmentId) {
+            window.location.href = `submit.html?id=${assignmentId}`;
+        }
+
+        function logout() {
+            api.clearToken();
+            window.location.href = 'index.html';
+        }
+
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+import turtle
+import numpy as np
+import random
+
+t = turtle.Turtle()
+t.speed(2)
+t.pensize(3)
+
+n = int(input("请输入边长n（100-300）："))
+if n < 100 or n > 300:
+    print("边长必须在100-300之间")
+else:
+    t.color('yellow')
+    t.begin_fill()
+    t.forward(n)
+    t.left(120)
+    t.forward(n)
+    t.left(120)
+    t.forward(n)
+    t.end_fill()
+
+    t.color('black')
+    t.begin_fill()
+    t.left(120)
+    t.forward(n)
+    t.left(120)
+    t.forward(n)
+    t.left(120)
+    t.forward(n)
+
+    t.penup()
+    t.left(150)
+    t.forward(np.sqrt(3)*n/16)
+    t.left(30)
+    t.pendown()
+    t.forward(n-3*n/16)
+    t.right(120)
+    t.forward(n-3*n/16)
+    t.right(120)
+    t.forward(n-3*n/16)
+    t.end_fill()
+
+    t.penup()
+    t.right(180)
+    t.forward(13*n/32)
+    t.left(90)
+    t.forward(n/8)
+    t.pendown()
+    t.dot(n/12)
+
+    t.penup()
+    t.forward(n/12)
+    t.left(10)
+    t.pendown()
+    t.color('black')
+    t.begin_fill()
+    t.forward(n/4)
+    t.right(100)
+    t.forward(n/12)
+    t.right(100)
+    t.forward(n/4)
+    t.end_fill()
+
+    t.penup()
+    t.right(160)
+    t.forward(n/4)
+    t.right(10) 
+    t.pendown()
+
+    t.color('black')
+    t.begin_fill()
+    t.circle(-n/24,180)
+    t.end_fill()    
+
+turtle.done()

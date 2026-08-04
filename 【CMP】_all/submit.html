@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKU作业提交通道 - 提交作业</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="nav-bar">
+        <div class="logo">
+            <i class="fas fa-hat-wizard"></i> PKU
+        </div>
+        <div class="user-info">
+            <button class="btn btn-secondary btn-small" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> 返回
+            </button>
+            <button class="btn btn-secondary btn-small" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> 退出
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-upload"></i> 提交作业</h1>
+            <p class="subtitle">Submit Assignment</p>
+        </header>
+
+        <div id="loading" style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--hogwarts-gold);"></i>
+            <p style="margin-top: 15px;">正在加载作业信息...</p>
+        </div>
+
+        <div id="content" style="display: none;">
+            <div class="card">
+                <h2><i class="fas fa-info-circle"></i> 作业信息</h2>
+                <div style="margin-bottom: 20px;">
+                    <div style="color: var(--hogwarts-gold); font-size: 1.2rem; font-weight: 600;" id="assignment-title"></div>
+                    <div style="color: var(--parchment-dark); margin-top: 5px;">
+                        <i class="fas fa-calendar"></i> 截止时间: <span id="assignment-deadline"></span>
+                    </div>
+                    <div style="color: var(--parchment-dark); margin-top: 5px;">
+                        <i class="fas fa-star"></i> 满分: <span id="assignment-max-score"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-file-alt"></i> K系列作业提交格式</h2>
+                <p style="color: var(--parchment-dark); margin-bottom: 20px;">
+                    请按照以下格式提交您的K系列作业：
+                </p>
+                <ol style="list-style: none; padding: 0;">
+                    <li style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(26, 26, 46, 0.5); border-radius: 8px; border-left: 3px solid var(--hogwarts-gold);">
+                        <span style="color: var(--hogwarts-gold); font-weight: 700; font-size: 1.1rem; min-width: 24px;">1、</span>
+                        <div style="flex: 1;">
+                            <div style="color: var(--hogwarts-gold); font-weight: 600; margin-bottom: 5px;">
+                                <i class="fas fa-folder"></i> 创建作业文件夹
+                            </div>
+                            <div style="color: var(--parchment-dark); font-size: 0.9rem;">为每个K系列作业创建单独的文件夹，名称为K0、K1、K2等</div>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(26, 26, 46, 0.5); border-radius: 8px; border-left: 3px solid var(--hogwarts-gold);">
+                        <span style="color: var(--hogwarts-gold); font-weight: 700; font-size: 1.1rem; min-width: 24px;">2、</span>
+                        <div style="flex: 1;">
+                            <div style="color: var(--hogwarts-gold); font-weight: 600; margin-bottom: 5px;">
+                                <i class="fas fa-file-alt"></i> intro.md
+                            </div>
+                            <div style="color: var(--parchment-dark); font-size: 0.9rem;">作业说明文件，包含作业的详细说明和完成情况</div>
+                            <div style="margin-top: 8px; padding: 4px 10px; background: rgba(211, 166, 37, 0.1); border-radius: 3px; font-size: 0.85rem; display: inline-block;">对应字段: text</div>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(26, 26, 46, 0.5); border-radius: 8px; border-left: 3px solid #ff6b6b;">
+                        <span style="color: #ff6b6b; font-weight: 700; font-size: 1.1rem; min-width: 24px;">3、</span>
+                        <div style="flex: 1;">
+                            <div style="color: #ff6b6b; font-weight: 600; margin-bottom: 5px;">
+                                <i class="fas fa-file-pdf"></i> content.pdf
+                            </div>
+                            <div style="color: var(--parchment-dark); font-size: 0.9rem;">作业内容文件，由content.md生成的PDF文档</div>
+                            <div style="margin-top: 8px; padding: 4px 10px; background: rgba(255, 107, 107, 0.1); border-radius: 3px; font-size: 0.85rem; display: inline-block;">对应字段: file</div>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 15px; background: rgba(26, 26, 46, 0.5); border-radius: 8px; border-left: 3px solid #4CAF50;">
+                        <span style="color: #4CAF50; font-weight: 700; font-size: 1.1rem; min-width: 24px;">4、</span>
+                        <div style="flex: 1;">
+                            <div style="color: #4CAF50; font-weight: 600; margin-bottom: 5px;">
+                                <i class="fas fa-comments"></i> LLM_chat_log.md
+                            </div>
+                            <div style="color: var(--parchment-dark); font-size: 0.9rem;">AI对话记录文件，记录您与AI的交互过程</div>
+                            <div style="margin-top: 8px; padding: 4px 10px; background: rgba(76, 175, 80, 0.1); border-radius: 3px; font-size: 0.85rem; display: inline-block;">对应字段: LLM_chat_log</div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-pencil-alt"></i> 作业说明 (intro.md)</h2>
+                <div class="form-group">
+                    <label for="intro-text">请输入作业说明内容，或上传intro.md文件</label>
+                    <textarea id="intro-text" placeholder="在此输入作业说明内容..."></textarea>
+                </div>
+                <div class="file-upload" id="intro-upload">
+                    <input type="file" id="intro-file" accept=".md">
+                    <div class="upload-icon"><i class="fas fa-file-upload"></i></div>
+                    <div class="upload-text">
+                        <span><i class="fas fa-file-alt"></i> 点击或拖拽上传 intro.md 文件</span>
+                    </div>
+                    <div id="intro-file-name" style="margin-top: 12px; display: none;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-file-pdf"></i> 作业内容 (content.pdf)</h2>
+                <div class="form-group">
+                    <label for="content-file">上传作业内容PDF文件</label>
+                    <div class="file-upload" id="content-upload">
+                        <input type="file" id="content-file" accept=".pdf,.txt,.py,.ipynb,.zip">
+                        <div class="upload-icon"><i class="fas fa-file-upload"></i></div>
+                        <div class="upload-text">
+                            <span><i class="fas fa-file-pdf"></i> 点击或拖拽上传 content.pdf 文件</span>
+                            <div style="font-size: 0.85rem; color: var(--parchment-dark); margin-top: 5px;">
+                                支持格式: .pdf, .txt, .py, .ipynb, .zip
+                            </div>
+                        </div>
+                        <div id="content-file-name" style="margin-top: 12px; display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-comments"></i> AI对话记录 (LLM_chat_log.md)</h2>
+                <p style="color: var(--parchment-dark); margin-bottom: 15px;">
+                    <i class="fas fa-info-circle"></i> 此字段为可选字段，用于提交您与AI的聊天记录
+                </p>
+                <div class="file-upload" id="chat-log-upload">
+                    <input type="file" id="chat-log-file" accept=".md">
+                    <div class="upload-icon"><i class="fas fa-file-upload"></i></div>
+                    <div class="upload-text">
+                        <span><i class="fas fa-comments"></i> 点击或拖拽上传 LLM_chat_log.md 文件</span>
+                    </div>
+                    <div id="chat-log-file-name" style="margin-top: 12px; display: none;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div id="error-message" class="error-message"></div>
+                <div id="success-message" class="success-message"></div>
+                
+                <div style="display: flex; align-items: center; gap: 10px;" id="submit-row">
+                    <button class="btn btn-primary" style="flex: 1;" id="submit-btn" onclick="handleSubmit()">
+                        <i class="fas fa-upload"></i> 提交作业
+                    </button>
+                </div>
+                
+                <div id="submit-loading" style="display: none; text-align: center; padding: 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; color: var(--hogwarts-gold);"></i>
+                    <p style="margin-top: 10px;">正在提交作业...</p>
+                </div>
+            </div>
+
+            <div class="card" id="submit-success" style="display: none;">
+                <h2><i class="fas fa-check-circle" style="color: #4CAF50;"></i> 提交成功!</h2>
+                <div style="margin-bottom: 20px;">
+                    <div style="color: var(--hogwarts-gold); font-size: 1.2rem; margin-bottom: 10px;">
+                        您的作业已成功提交，版本号: <span id="submit-version"></span>
+                    </div>
+                    <div style="color: var(--parchment-dark);">
+                        提交时间: <span id="submit-time"></span>
+                    </div>
+                    <div style="color: var(--parchment-dark);">
+                        <span id="submit-late"></span>
+                    </div>
+                </div>
+                
+                <div id="submit-files" style="margin-bottom: 20px;">
+                </div>
+
+                <button class="btn btn-secondary" style="width: 100%;" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> 返回作业列表
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        const api = new CourseAPI();
+        let assignmentId = null;
+        let assignment = null;
+        let introFile = null;
+        let contentFile = null;
+        let chatLogFile = null;
+
+        async function init() {
+            if (!api.token) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const params = new URLSearchParams(window.location.search);
+            assignmentId = params.get('id');
+
+            if (!assignmentId) {
+                alert('请选择一个作业');
+                goBack();
+                return;
+            }
+
+            try {
+                assignment = await api.getAssignment(assignmentId);
+                renderAssignmentInfo(assignment);
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+            } catch (error) {
+                console.error('加载失败:', error);
+                alert('加载作业信息失败');
+                goBack();
+            }
+        }
+
+        function renderAssignmentInfo(assignment) {
+            document.getElementById('assignment-title').textContent = assignment.title;
+            document.getElementById('assignment-deadline').textContent = formatDeadline(assignment.deadline);
+            document.getElementById('assignment-max-score').textContent = assignment.max_score;
+        }
+
+        // —— 工具函数 ——
+        // 各文件的对象URL（用于预览），更换/移除时回收避免内存泄漏
+        const fileObjectUrls = { intro: null, content: null, chatLog: null };
+
+        function getFileIcon(name) {
+            const ext = name.slice(name.lastIndexOf('.') + 1).toLowerCase();
+            if (ext === 'pdf') return { icon: 'fa-file-pdf', color: '#ff6b6b' };
+            if (ext === 'md') return { icon: 'fa-file-alt', color: 'var(--hogwarts-gold)' };
+            if (ext === 'py') return { icon: 'fa-file-code', color: '#4CAF50' };
+            if (ext === 'zip') return { icon: 'fa-file-archive', color: '#9c88ff' };
+            if (ext === 'ipynb') return { icon: 'fa-file-code', color: '#f59e0b' };
+            return { icon: 'fa-file', color: 'var(--hogwarts-gold)' };
+        }
+
+        // 把 File 读成文本（提交 intro.md 时用）
+        function readFileAsText(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = () => resolve('');
+                reader.readAsText(file);
+            });
+        }
+
+        // 根据扩展名判断是否为文本类文件
+        function isTextFile(file) {
+            const dot = file.name.lastIndexOf('.');
+            const ext = dot >= 0 ? file.name.slice(dot + 1).toLowerCase() : '';
+            return ['md', 'txt', 'py', 'ipynb', 'json', 'csv', 'log', 'html', 'css', 'js'].includes(ext);
+        }
+
+        // 在新窗口直接打开文件内容（绕开浏览器的"打开方式"对话框）
+        function openFileInNewTab(file) {
+            const dot = file.name.lastIndexOf('.');
+            const ext = dot >= 0 ? file.name.slice(dot + 1).toLowerCase() : '';
+
+            // 关键：在点击事件的同步路径里立即打开空白窗口，
+            // 避免浏览器把异步的 window.open 当作弹窗拦截或走下载路径
+            const w = window.open('', '_blank');
+            if (!w) {
+                showError('浏览器阻止了新窗口打开，请在地址栏允许弹窗后重试');
+                return;
+            }
+
+            if (isTextFile(file)) {
+                // 文本文件：读取内容后填充到已打开的窗口里
+                readFileAsText(file).then(text => {
+                    if (w.closed) return;
+                    const isMd = ext === 'md';
+                    const body = isMd
+                        ? `<html><head><meta charset="utf-8"><title>${file.name}</title><style>body{font-family:Segoe UI,Arial,sans-serif;padding:30px;max-width:900px;margin:auto;line-height:1.7;color:#333}pre{white-space:pre-wrap;word-wrap:break-word;font-family:Consolas,Courier New,monospace;background:#f7f7f7;padding:20px;border-radius:8px;overflow-x:auto}</style></head><body><h2 style="color:#644;font-family:Cinzel,serif">${file.name}</h2><pre></pre></body></html>`
+                        : `<html><head><meta charset="utf-8"><title>${file.name}</title><style>body{font-family:Consolas,Courier New,monospace;padding:30px;color:#333}pre{white-space:pre-wrap;word-wrap:break-word;background:#f7f7f7;padding:20px;border-radius:8px;overflow-x:auto}</style></head><body><h2 style="color:#644">${file.name}</h2><pre></pre></body></html>`;
+                    w.document.open();
+                    w.document.write(body);
+                    w.document.title = file.name;
+                    w.document.querySelector('pre').textContent = text;
+                    w.document.close();
+                });
+            } else {
+                // PDF等二进制文件：用 iframe 直接嵌入 blob
+                const mime = ext === 'pdf' ? 'application/pdf' : (file.type || 'application/octet-stream');
+                const blob = new Blob([file], { type: mime });
+                const url = URL.createObjectURL(blob);
+                w.document.open();
+                w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${file.name}</title><style>html,body{margin:0;padding:0;height:100%;background:#222}iframe{width:100vw;height:100vh;border:0}</style></head><body><iframe src="${url}#toolbar=0&navpanes=0" allowfullscreen></iframe></body></html>`);
+                w.document.close();
+                setTimeout(() => URL.revokeObjectURL(url), 60000);
+            }
+        }
+
+        // 渲染可点击打开的文件卡片
+        function renderFileCard(cardId, file, key, onRemove) {
+            const container = document.getElementById(cardId);
+            if (!file) {
+                if (fileObjectUrls[key]) { URL.revokeObjectURL(fileObjectUrls[key]); fileObjectUrls[key] = null; }
+                container.innerHTML = '';
+                container.style.display = 'none';
+                return;
+            }
+            if (fileObjectUrls[key]) URL.revokeObjectURL(fileObjectUrls[key]);
+            fileObjectUrls[key] = 'live'; // 仅占位，不再使用 blob URL 作链接
+
+            const fi = getFileIcon(file.name);
+            container.innerHTML = `
+                <div class="file-card">
+                    <div class="file-card-icon" style="color:${fi.color};"><i class="fas ${fi.icon}"></i></div>
+                    <div class="file-card-info">
+                        <span class="file-card-name" title="点击打开文档">${file.name}</span>
+                        <div class="file-card-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <div class="file-card-actions">
+                        <button class="file-card-btn preview" type="button"><i class="fas fa-external-link-alt"></i> 打开</button>
+                        <button class="file-card-btn remove" type="button"><i class="fas fa-times"></i> 移除</button>
+                    </div>
+                </div>
+            `;
+            container.style.display = 'block';
+            const buttons = container.querySelectorAll('button');
+            buttons[0].addEventListener('click', () => openFileInNewTab(file));
+            container.querySelector('.file-card-name').addEventListener('click', () => openFileInNewTab(file));
+            buttons[1].addEventListener('click', onRemove);
+        }
+
+        // —— 单文件处理函数（上传后保留为可点击文档，不再转成文本）——
+        function handleIntroFile(file) {
+            introFile = file || null;
+            renderFileCard('intro-file-name', file, 'intro', () => handleIntroFile(null));
+        }
+        function handleContentFile(file) {
+            contentFile = file || null;
+            renderFileCard('content-file-name', file, 'content', () => handleContentFile(null));
+        }
+        function handleChatLogFile(file) {
+            chatLogFile = file || null;
+            renderFileCard('chat-log-file-name', file, 'chatLog', () => handleChatLogFile(null));
+        }
+
+        // —— 拖拽 + 点击上传区通用绑定 ——
+        // zoneId: 上传区容器id; inputId: 隐藏的<input type=file>id;
+        // handler: 文件处理回调; acceptExts: 允许的扩展名数组(小写, 含点)
+        function setupDropZone(zoneId, inputId, handler, acceptExts) {
+            const zone = document.getElementById(zoneId);
+            const input = document.getElementById(inputId);
+
+            // 点击上传区 → 转发到隐藏的 file input（修复点击无反应）
+            zone.addEventListener('click', (e) => {
+                if (e.target !== input) input.click();
+            });
+
+            // input 原生选择
+            input.addEventListener('change', (e) => {
+                handler(e.target.files && e.target.files[0]);
+                input.value = ''; // 允许重复选择同一文件
+            });
+
+            // 拖拽视觉反馈
+            ['dragenter', 'dragover'].forEach(evt => {
+                zone.addEventListener(evt, (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    zone.classList.add('drag-over');
+                });
+            });
+            ['dragleave', 'drop'].forEach(evt => {
+                zone.addEventListener(evt, (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    zone.classList.remove('drag-over');
+                });
+            });
+
+            // 放下文件
+            zone.addEventListener('drop', (e) => {
+                const files = e.dataTransfer.files;
+                if (!files || !files.length) return;
+                const file = files[0];
+                const ext = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
+                if (acceptExts && !acceptExts.includes(ext)) {
+                    showError(`不支持的文件格式: ${ext}，仅接受 ${acceptExts.join(', ')}`);
+                    return;
+                }
+                handler(file);
+            });
+        }
+
+        setupDropZone('intro-upload', 'intro-file', handleIntroFile, ['.md']);
+        setupDropZone('content-upload', 'content-file', handleContentFile, ['.pdf', '.txt', '.py', '.ipynb', '.zip']);
+        setupDropZone('chat-log-upload', 'chat-log-file', handleChatLogFile, ['.md']);
+
+        async function handleSubmit() {
+            let text = document.getElementById('intro-text').value.trim();
+            // 若文本框为空但上传了 intro.md 文件，则读取文件内容作为 text
+            if (!text && introFile) {
+                text = await readFileAsText(introFile);
+            }
+
+            if (!text && !contentFile) {
+                showError('请至少提供作业说明(text)或作业文件(file)');
+                return;
+            }
+
+            if (chatLogFile && !chatLogFile.name.endsWith('.md')) {
+                showError('AI对话记录文件必须是.md格式');
+                return;
+            }
+
+            document.getElementById('submit-row').style.display = 'none';
+                document.getElementById('submit-loading').style.display = 'block';
+
+            try {
+                const result = await api.submitAssignment(assignmentId, text, contentFile, chatLogFile);
+                
+                document.getElementById('submit-loading').style.display = 'none';
+                document.getElementById('submit-success').style.display = 'block';
+                
+                document.getElementById('submit-version').textContent = `v${result.version}`;
+                document.getElementById('submit-time').textContent = new Date(result.submitted_at).toLocaleString('zh-CN');
+                document.getElementById('submit-late').textContent = result.is_late ? '<span style="color: #ff6b6b;">⚠️ 此提交为迟交</span>' : '<span style="color: #4CAF50;">✓ 按时提交</span>';
+
+                let filesHtml = '';
+                if (result.text) {
+                    filesHtml += `
+                        <div style="padding: 10px; background: rgba(26, 26, 46, 0.5); border-radius: 5px; margin-bottom: 10px;">
+                            <div style="color: var(--hogwarts-gold);"><i class="fas fa-file-alt"></i> 作业说明</div>
+                        </div>
+                    `;
+                }
+                if (result.file) {
+                    filesHtml += `
+                        <div style="padding: 10px; background: rgba(26, 26, 46, 0.5); border-radius: 5px; margin-bottom: 10px;">
+                            <div style="color: #ff6b6b;"><i class="fas fa-file-pdf"></i> ${result.file.original_name}</div>
+                            <div style="color: var(--parchment-dark); font-size: 0.85rem;">${formatFileSize(result.file.size)}</div>
+                        </div>
+                    `;
+                }
+                if (result.LLM_chat_log) {
+                    filesHtml += `
+                        <div style="padding: 10px; background: rgba(26, 26, 46, 0.5); border-radius: 5px;">
+                            <div style="color: #4CAF50;"><i class="fas fa-comments"></i> ${result.LLM_chat_log.original_name}</div>
+                            <div style="color: var(--parchment-dark); font-size: 0.85rem;">${formatFileSize(result.LLM_chat_log.size)}</div>
+                        </div>
+                    `;
+                }
+                document.getElementById('submit-files').innerHTML = filesHtml;
+
+            } catch (error) {
+                document.getElementById('submit-loading').style.display = 'none';
+                document.getElementById('submit-row').style.display = 'flex';
+                showError(error.message);
+            }
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('error-message');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+            }, 5000);
+        }
+
+        function formatDeadline(deadlineStr) {
+            const date = new Date(deadlineStr);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function goBack() {
+            window.location.href = `assignment.html?id=${assignmentId}`;
+        }
+
+        function logout() {
+            api.clearToken();
+            window.location.href = 'index.html';
+        }
+
+        init();
+    </script>
+</body>
+</html>

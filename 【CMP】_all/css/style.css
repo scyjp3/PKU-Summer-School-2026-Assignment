@@ -1,0 +1,891 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=MedievalSharp&display=swap');
+
+:root {
+    --hogwarts-red: #740001;
+    --hogwarts-gold: #D3A625;
+    --hogwarts-dark: #1a1a2e;
+    --hogwarts-purple: #4a1942;
+    --parchment: #f4e4bc;
+    --parchment-dark: #e8d5a3;
+    --magic-blue: #0e1a40;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cinzel', serif;
+    background: linear-gradient(135deg, var(--magic-blue) 0%, var(--hogwarts-dark) 50%, var(--hogwarts-purple) 100%);
+    min-height: 100vh;
+    color: var(--parchment);
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(211, 166, 37, 0.3), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(211, 166, 37, 0.2), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(211, 166, 37, 0.4), transparent),
+        radial-gradient(2px 2px at 160px 120px, rgba(211, 166, 37, 0.2), transparent),
+        radial-gradient(1px 1px at 230px 80px, rgba(211, 166, 37, 0.3), transparent);
+    background-size: 250px 250px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.header-castle {
+    position: relative;
+    background-image: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Hogwarts%20castle%20at%20night%2C%20magical%20fantasy%20castle%20with%20tall%20spires%20and%20glowing%20golden%20windows%2C%20dark%20starry%20sky%2C%20misty%20atmosphere%2C%20cinematic%20wide%20shot%2C%20digital%20painting%20art&image_size=landscape_16_9');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding: 80px 20px;
+    border: 2px solid var(--hogwarts-gold);
+    box-shadow: 0 0 30px rgba(211, 166, 37, 0.3);
+}
+
+.header-castle .header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(14, 26, 64, 0.4) 0%, rgba(26, 26, 46, 0.7) 100%);
+    z-index: 0;
+}
+
+.header-castle h1,
+.header-castle .subtitle {
+    position: relative;
+    z-index: 1;
+}
+
+.header h1 {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 4rem;
+    color: var(--hogwarts-gold);
+    text-shadow: 
+        0 0 10px rgba(211, 166, 37, 0.5),
+        0 0 20px rgba(211, 166, 37, 0.3),
+        0 0 30px rgba(211, 166, 37, 0.2),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: 10px;
+}
+
+.header .subtitle {
+    font-size: 1.2rem;
+    color: var(--parchment-dark);
+    letter-spacing: 4px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.card {
+    background: linear-gradient(145deg, rgba(244, 228, 188, 0.1), rgba(244, 228, 188, 0.05));
+    border: 2px solid var(--hogwarts-gold);
+    border-radius: 10px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 20px rgba(211, 166, 37, 0.2),
+        inset 0 0 20px rgba(211, 166, 37, 0.1);
+}
+
+.card h2 {
+    color: var(--hogwarts-gold);
+    margin-bottom: 20px;
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.8rem;
+    border-bottom: 1px solid var(--hogwarts-gold);
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--parchment);
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--hogwarts-gold);
+    border-radius: 5px;
+    background: rgba(26, 26, 46, 0.8);
+    color: var(--parchment);
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--hogwarts-red);
+    box-shadow: 0 0 15px rgba(116, 0, 1, 0.4);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.btn-primary {
+    background: linear-gradient(145deg, var(--hogwarts-red), #5a0000);
+    color: var(--hogwarts-gold);
+    border: 2px solid var(--hogwarts-gold);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 5px 20px rgba(116, 0, 1, 0.4),
+        0 0 20px rgba(211, 166, 37, 0.3);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--hogwarts-gold);
+    border: 2px solid var(--hogwarts-gold);
+}
+
+.btn-secondary:hover {
+    background: rgba(211, 166, 37, 0.1);
+    box-shadow: 0 0 15px rgba(211, 166, 37, 0.3);
+}
+
+.btn-small {
+    padding: 6px 15px;
+    font-size: 0.85rem;
+}
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.login-card .icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    background: rgba(116, 0, 1, 0.2);
+    border: 1px solid var(--hogwarts-red);
+    color: #ff6b6b;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.success-message {
+    background: rgba(0, 128, 0, 0.2);
+    border: 1px solid #4CAF50;
+    color: #81C784;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.nav-bar {
+    background: rgba(26, 26, 46, 0.9);
+    border-bottom: 2px solid var(--hogwarts-gold);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-bar .logo {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.8rem;
+    color: var(--hogwarts-gold);
+}
+
+.nav-bar .user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-bar .user-info span {
+    color: var(--parchment);
+}
+
+.nav-bar .user-info .btn {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    text-align: center;
+}
+
+.stat-card .stat-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--hogwarts-gold);
+    text-shadow: 0 0 10px rgba(211, 166, 37, 0.5);
+}
+
+.stat-card .stat-label {
+    font-size: 0.95rem;
+    color: var(--parchment-dark);
+    margin-top: 5px;
+}
+
+.assignment-list {
+    list-style: none;
+}
+
+.assignment-item {
+    background: rgba(26, 26, 46, 0.5);
+    border: 1px solid var(--hogwarts-gold);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.assignment-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 0 15px rgba(211, 166, 37, 0.2);
+}
+
+.assignment-item h3 {
+    color: var(--hogwarts-gold);
+    margin-bottom: 10px;
+}
+
+.assignment-item .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: var(--parchment-dark);
+    margin-bottom: 10px;
+}
+
+.assignment-item .meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.assignment-item .status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.status-published {
+    background: rgba(76, 175, 80, 0.2);
+    color: #81C784;
+    border: 1px solid #4CAF50;
+}
+
+.status-closed {
+    background: rgba(116, 0, 1, 0.2);
+    color: #ff6b6b;
+    border: 1px solid var(--hogwarts-red);
+}
+
+.status-draft {
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFD54F;
+    border: 1px solid #FFC107;
+}
+
+.assignment-item .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.file-upload {
+    border: 2px dashed var(--hogwarts-gold);
+    border-radius: 5px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(26, 26, 46, 0.5);
+}
+
+.file-upload:hover {
+    border-color: var(--hogwarts-red);
+    background: rgba(116, 0, 1, 0.1);
+}
+
+/* 拖拽悬停时的视觉反馈 */
+.file-upload.drag-over {
+    border-color: var(--hogwarts-gold);
+    border-style: solid;
+    background: rgba(211, 166, 37, 0.2);
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(211, 166, 37, 0.5);
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+/* 上传后的文件卡片（可点击打开） */
+.file-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: rgba(26, 26, 46, 0.7);
+    border: 1px solid var(--hogwarts-gold);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.file-card:hover {
+    background: rgba(211, 166, 37, 0.12);
+    box-shadow: 0 0 12px rgba(211, 166, 37, 0.35);
+}
+
+.file-card-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.file-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.file-card-name {
+    color: var(--parchment);
+    font-weight: 600;
+    text-decoration: none;
+    word-break: break-all;
+    display: block;
+    cursor: pointer;
+}
+
+.file-card-name:hover {
+    color: var(--hogwarts-gold);
+    text-decoration: underline;
+}
+
+.file-card-size {
+    color: var(--parchment-dark);
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+
+.file-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.file-card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid;
+    transition: all 0.2s ease;
+    background: transparent;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.file-card-btn.preview {
+    color: var(--hogwarts-gold);
+    border-color: var(--hogwarts-gold);
+}
+
+.file-card-btn.preview:hover {
+    background: var(--hogwarts-gold);
+    color: var(--bg-dark, #1a1a2e);
+}
+
+.file-card-btn.remove {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.file-card-btn.remove:hover {
+    background: #ff6b6b;
+    color: #fff;
+}
+
+.file-upload .upload-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.file-upload .upload-text {
+    color: var(--parchment-dark);
+}
+
+.file-upload .upload-text span {
+    color: var(--hogwarts-gold);
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(26, 26, 46, 0.8);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.progress-bar .progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--hogwarts-gold), var(--hogwarts-red));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.chart-container {
+    height: 300px;
+    position: relative;
+}
+
+.score-display {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--hogwarts-gold);
+}
+
+.score-display .max-score {
+    font-size: 1rem;
+    color: var(--parchment-dark);
+}
+
+.feedback {
+    background: rgba(26, 26, 46, 0.5);
+    border-left: 3px solid var(--hogwarts-gold);
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 0 5px 5px 0;
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .nav-bar {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .assignment-item .actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-castle {
+        padding: 50px 15px;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+.sparkle {
+    animation: sparkle 2s infinite;
+}
+
+.flying-broom {
+    font-size: 2.5rem;
+    color: var(--hogwarts-gold);
+    display: inline-block;
+    animation: flyAround 4s ease-in-out infinite;
+    text-shadow: 0 0 15px rgba(211, 166, 37, 0.6);
+}
+
+@keyframes flyAround {
+    0% {
+        transform: translateX(-80px) translateY(0) rotate(-15deg);
+    }
+    25% {
+        transform: translateX(-30px) translateY(-15px) rotate(-10deg);
+    }
+    50% {
+        transform: translateX(20px) translateY(-5px) rotate(5deg);
+    }
+    75% {
+        transform: translateX(60px) translateY(-20px) rotate(-5deg);
+    }
+    100% {
+        transform: translateX(80px) translateY(0) rotate(-15deg);
+    }
+}
+
+/* 悬浮羽毛笔 */
+.floating-quill {
+    font-size: 2.2rem;
+    color: var(--hogwarts-gold);
+    display: inline-block;
+    transform: rotate(-25deg);
+    animation: quillFloat 3s ease-in-out infinite;
+    text-shadow: 0 0 15px rgba(211, 166, 37, 0.6), 0 0 25px rgba(211, 166, 37, 0.3);
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.4));
+}
+
+@keyframes quillFloat {
+    0%, 100% {
+        transform: rotate(-25deg) translateY(0);
+    }
+    50% {
+        transform: rotate(-20deg) translateY(-8px);
+    }
+}
+
+/* 提交作业按钮旁的悬浮猫头鹰 */
+.floating-owl-icon {
+    display: inline-block;
+    font-size: 1.3rem;
+    animation: owlBob 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(211, 166, 37, 0.5));
+}
+
+@keyframes owlBob {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-6px) rotate(5deg);
+    }
+}
+
+/* 作业描述展开/折叠 */
+.description-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.description-text {
+    color: var(--parchment-dark);
+    line-height: 1.6;
+    margin: 0;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.description-text.collapsed {
+    overflow: hidden;
+    position: relative;
+}
+
+.description-text.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1.5em;
+    background: linear-gradient(to bottom, transparent, rgba(26, 26, 46, 0.9));
+    pointer-events: none;
+}
+
+.description-text.expanded {
+    overflow: visible;
+}
+
+.description-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    margin-top: 8px;
+    background: rgba(211, 166, 37, 0.1);
+    border: 1px solid var(--hogwarts-gold);
+    color: var(--hogwarts-gold);
+    font-size: 0.85rem;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.description-toggle:hover {
+    background: rgba(211, 166, 37, 0.2);
+    transform: translateY(-1px);
+}
+
+.description-toggle i {
+    font-size: 0.7rem;
+    transition: transform 0.3s;
+}
+
+.description-toggle.expanded i {
+    transform: rotate(180deg);
+}
+
+/* ===== 哈利波特装饰元素（绝对定位，固定在页面位置，随页面滚动） ===== */
+.hp-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* 优雅金色飞贼 */
+.golden-snitch {
+    position: absolute;
+    top: 120px;
+    right: 60px;
+    width: 40px;
+    height: 24px;
+    animation: snitchHover 4s ease-in-out infinite;
+}
+
+.snitch-body {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 35% 35%, #FFF4C2 0%, #FFD700 30%, #D4A017 70%, #8B6914 100%);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 12px rgba(255, 215, 0, 0.8),
+        0 0 24px rgba(255, 215, 0, 0.4),
+        inset -2px -2px 4px rgba(139, 105, 20, 0.6);
+}
+
+.snitch-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 24px;
+    background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: snitchPulse 2s ease-in-out infinite;
+}
+
+.snitch-wing {
+    position: absolute;
+    top: 8px;
+    width: 16px;
+    height: 10px;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 220, 0.7) 50%, rgba(255, 215, 0, 0.3) 100%);
+    border-radius: 80% 20% 60% 30% / 60% 40% 60% 40%;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+    animation: wingFlap 0.4s ease-in-out infinite alternate;
+}
+
+.snitch-wing.left {
+    left: 0;
+    transform-origin: right center;
+    border-radius: 20% 80% 30% 60% / 40% 60% 40% 60%;
+}
+
+.snitch-wing.right {
+    right: 0;
+    transform-origin: left center;
+    border-radius: 80% 20% 60% 30% / 60% 40% 60% 40%;
+}
+
+@keyframes wingFlap {
+    0% { transform: scaleY(1) scaleX(1); }
+    100% { transform: scaleY(0.4) scaleX(0.9); }
+}
+
+@keyframes snitchHover {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-12px) rotate(5deg); }
+    66% { transform: translateY(-6px) rotate(-3deg); }
+}
+
+@keyframes snitchPulse {
+    0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.3); }
+}
+
+/* 悬浮的羽毛（猫头鹰信使） */
+.flying-owl {
+    position: absolute;
+    top: 400px;
+    left: 40px;
+    color: var(--parchment);
+    font-size: 1.6rem;
+    opacity: 0.5;
+    text-shadow: 0 0 10px rgba(244, 228, 188, 0.5);
+    animation: featherHover 5s ease-in-out infinite;
+    transform: rotate(-15deg);
+}
+
+@keyframes featherHover {
+    0%, 100% { transform: rotate(-15deg) translate(0, 0); }
+    50% { transform: rotate(-25deg) translate(10px, -15px); }
+}
+
+/* 漂浮蜡烛 */
+.floating-candle {
+    position: absolute;
+    width: 10px;
+    height: 45px;
+    background: linear-gradient(180deg, var(--parchment) 0%, var(--parchment-dark) 70%, #b8a37a 100%);
+    border-radius: 2px;
+    opacity: 0.75;
+    box-shadow: 0 0 8px rgba(244, 228, 188, 0.3);
+}
+
+.floating-candle .flame {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 16px;
+    background: radial-gradient(ellipse at center, #FFFACD 0%, #FFD700 30%, #FF8C00 70%, transparent 100%);
+    border-radius: 50% 50% 25% 25%;
+    animation: flameFlicker 0.4s ease-in-out infinite alternate;
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+@keyframes flameFlicker {
+    0% {
+        transform: translateX(-50%) scaleY(1) scaleX(1) skewX(0deg);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateX(-50%) scaleY(1.25) scaleX(0.85) skewX(-3deg);
+        opacity: 1;
+    }
+}
+
+.candle-1 {
+    top: 200px;
+    right: 30px;
+    animation: candleFloat 6s ease-in-out infinite;
+}
+
+.candle-2 {
+    top: 700px;
+    left: 30px;
+    animation: candleFloat 7s ease-in-out infinite 1s;
+}
+
+.candle-3 {
+    top: 1100px;
+    right: 50px;
+    animation: candleFloat 8s ease-in-out infinite 2s;
+}
+
+@keyframes candleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+/* 魔法闪烁星 */
+.magic-sparkle {
+    position: absolute;
+    color: var(--hogwarts-gold);
+    font-size: 1.3rem;
+    text-shadow: 0 0 10px rgba(211, 166, 37, 0.8);
+    animation: sparkleGlow 3s ease-in-out infinite;
+}
+
+.sparkle-1 { top: 150px; left: 15%; animation-delay: 0s; }
+.sparkle-2 { top: 350px; right: 20%; animation-delay: 0.5s; }
+.sparkle-3 { top: 600px; left: 25%; animation-delay: 1s; }
+.sparkle-4 { top: 900px; right: 15%; animation-delay: 1.5s; }
+.sparkle-5 { top: 1200px; left: 50%; animation-delay: 2s; }
+
+@keyframes sparkleGlow {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0.5) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg);
+    }
+}

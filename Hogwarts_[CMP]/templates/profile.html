@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>霍格沃茨 - 个人信息</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="main-body">
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="brand-icon">⚡</span>
+            <span class="brand-text">霍格沃茨作业系统</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard" class="nav-link">
+                <span class="nav-icon">🏠</span>
+                首页
+            </a>
+            <a href="/assignments" class="nav-link">
+                <span class="nav-icon">📝</span>
+                作业中心
+            </a>
+            <a href="/statistics" class="nav-link">
+                <span class="nav-icon">📊</span>
+                成绩统计
+            </a>
+            <a href="/profile" class="nav-link active">
+                <span class="nav-icon">👤</span>
+                个人信息
+            </a>
+            <button id="logout-btn" class="logout-btn">
+                <span class="logout-icon">🚪</span>
+                退出
+            </button>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>👤 个人信息</h1>
+            <p>查看你的霍格沃茨档案</p>
+        </div>
+
+        <div class="profile-container">
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <div class="avatar-circle">
+                        <span class="avatar-icon">🧙</span>
+                    </div>
+                    <div class="house-badge" id="house-badge">
+                        🏠
+                    </div>
+                </div>
+                
+                <div class="profile-info">
+                    <h2 id="profile-name">学生姓名</h2>
+                    <p class="profile-username" id="profile-username">username</p>
+                    <p class="profile-house" id="profile-house">学院</p>
+                </div>
+            </div>
+
+            <div class="detail-cards">
+                <div class="detail-card">
+                    <h3>📚 个人资料</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">年级</span>
+                        <span class="detail-value" id="profile-year">--</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">学院</span>
+                        <span class="detail-value" id="profile-house-detail">--</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">邮箱</span>
+                        <span class="detail-value" id="profile-email">--</span>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h3>🎯 学习目标</h3>
+                    <div class="goal-list">
+                        <div class="goal-item">
+                            <span class="goal-icon">⚡</span>
+                            <span class="goal-text">精通所有咒语</span>
+                        </div>
+                        <div class="goal-item">
+                            <span class="goal-icon">🧪</span>
+                            <span class="goal-text">成为优秀的魔药师</span>
+                        </div>
+                        <div class="goal-item">
+                            <span class="goal-icon">🐉</span>
+                            <span class="goal-text">学会与神奇动物沟通</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h3>🔮 魔法物品</h3>
+                    <div class="item-list">
+                        <div class="item-item">
+                            <span class="item-icon">🪄</span>
+                            <span class="item-text">魔杖</span>
+                        </div>
+                        <div class="item-item">
+                            <span class="item-icon">🧹</span>
+                            <span class="item-text">扫帚</span>
+                        </div>
+                        <div class="item-item">
+                            <span class="item-icon">📖</span>
+                            <span class="item-text">魔法书</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKU作业提交通道 - 作业管理系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 style="white-space: nowrap;"><i class="fas fa-graduation-cap"></i> 北京大学暑期学校</h1>
+            <p class="subtitle" style="white-space: nowrap;">Python语言基础与人工智能应用</p>
+        </header>
+
+        <section class="login-section">
+            <div class="card login-card">
+                <div class="icon">
+                    <i class="fas fa-scroll"></i>
+                </div>
+                <h2>学生登录</h2>
+                <p style="margin-bottom: 20px; color: var(--parchment-dark);">请使用您的学号和API密钥登录</p>
+                
+                <div id="error-message" class="error-message"></div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="student-id"><i class="fas fa-id-card"></i> 学号 (Student ID)</label>
+                        <input type="text" id="student-id" placeholder="请输入您的学号" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="api-secret"><i class="fas fa-key"></i> API密钥 (API Secret)</label>
+                        <input type="password" id="api-secret" placeholder="请输入您的API密钥" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> 提交任务
+                    </button>
+                </form>
+
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--hogwarts-gold); text-align: center;">
+                    <i class="fas fa-feather-pointed floating-quill"></i>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 30px; color: var(--parchment-dark); font-size: 0.85rem;">
+            <p><i class="fas fa-sparkles"></i> 欢迎来到北大暑校课程作业管理系统 <i class="fas fa-sparkles"></i></p>
+        </footer>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        const api = new CourseAPI();
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+        const studentIdInput = document.getElementById('student-id');
+        const apiSecretInput = document.getElementById('api-secret');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const studentId = studentIdInput.value.trim();
+            const apiSecret = apiSecretInput.value.trim();
+            
+            if (!studentId || !apiSecret) {
+                showError('请填写学号和API密钥');
+                return;
+            }
+
+            try {
+                const result = await api.login(studentId, apiSecret);
+                
+                if (result.user.role === 'student') {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    showError('请使用学生账号登录');
+                }
+            } catch (error) {
+                showError(error.message);
+            }
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

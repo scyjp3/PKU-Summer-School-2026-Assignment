@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; }
+h1, h2, h3 { color: #2c3e50; }
+h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: Consolas, monospace; }
+pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+th { background-color: #3498db; color: white; }
+tr:nth-child(even) { background-color: #f2f2f2; }
+blockquote { border-left: 4px solid #3498db; margin: 15px 0; padding: 10px 20px; background: #f9f9f9; }
+</style>
+</head>
+<body>
+<h1>【K3】数据类型思考题</h1>
+<h2>1. 商品信息的数据分析</h2>
+<p>便利店进货串点中有80串白萝卜，进货价格0.8元。请指出其中包含的数据和数据类型，编写程序验证下吧。</p>
+<pre><code class="language-python">print(type(80))
+print(type(0.8))
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image.png" /></p>
+<h2>2. 便利店里的数据分析</h2>
+<p>在便利店里，或网上商城找一种商品，进行数据分析。</p>
+<ul>
+<li>指出6项以上的数据项；</li>
+<li>指出这些数据项对应的基本数据类型。</li>
+</ul>
+<p>请以<strong>表格</strong>方式列出这些数据项的名称，数据类型和数据值。
+| 序号 | 数据项 | 类型 | 数据值 |
+| --- | --- | --- | --- |
+| 1 | 矿泉水 | str | 矿泉水 |
+| 2 | 商品条码 | str | 6922255400784 |
+| 3 | 商品产地 | str | 河北省唐山市 |
+| 4 | 净含量（克） | float | 100.5 |
+| 5 | 商品单价（元） | float | 1.5 |
+| 6 | 库存数量 | int | 50 |
+| 7 | 是否促销 | bool | True |
+| 8 | 保质期天数 | int | 360 |</p>
+<h2>3. 不同的数据对象</h2>
+<p>对象</p>
+<p>标识（id）相同的才是同一个数据对象。一般来说，即便是值相等的数据，也不是同一个数据对象。
+例如同样的小数<code>3.5</code>，先后赋值给不同的名字（变量），会得到不同的数据对象（id不同），
+编写程序验证下吧。</p>
+<pre><code class="language-python">x = 3.5
+y = float('3.5')
+print(f&quot;x = {x}, id(x) = {id(x)}&quot;)
+print(f&quot;y = {y}, id(y) = {id(y)}&quot;)
+print(f&quot;x == y: {x == y}&quot;)
+print(f&quot;x is y: {x is y}&quot;)
+print()
+print(&quot;结论：即便是值相等的数据（3.5 == 3.5），也可能是不同的对象（id不同）&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-1.png" /></p>
+<h2>4. 变量值交换</h2>
+<p>如果不用分解赋值的形式，如何才能实现两个变量交换值呢？
+编写程序验证下吧。</p>
+<pre><code class="language-python">a = 3
+b = 5
+print(f&quot;initial_a = {a}, initial_b = {b}&quot;)
+c = a
+a = b
+b = c
+print(f&quot;final_a = {a}, final_b = {b}&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-2.png" /></p>
+<h2>5. 便利店欢迎程序</h2>
+<p>小明同学在为便利店设计一个欢迎程序，在用户输入自己的中文姓名后，程序会提取用户的姓（假设是单字），显示一个亲切的欢迎消息。
+- 例如，输入“李清照”，程序显示“小李你好！欢迎来到便利店！”。</p>
+<p>请编写程序试一试吧。</p>
+<pre><code class="language-python">name = input(&quot;请输入你的名字：&quot;)
+surname = name[0]
+print(f&quot;小{surname}你好！欢迎来到便利店！&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-3.png" /></p>
+<h2>6. 拼接和弦</h2>
+<p>《两只老虎》吉他弹唱的和弦是“CCCCCCGCGC”，如何用拼接和重复运算生成这个字符串？
+请编写程序试一试吧。</p>
+<pre><code class="language-python">chord = &quot;C&quot; * 6 + &quot;GC&quot; * 2
+long_chord = chord
+long_chord += chord
+print(long_chord)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-4.png" /></p>
+<h2>7. 奶茶标签</h2>
+<p>便利店的奶茶价签是这样的字符串
+- <code>品名：浓香原味奶茶；产地：中国；单位：瓶；原价：10.50元；促销价：5.25元</code></p>
+<p>请编写程序，从价钱字符串中提取<strong>品名</strong>和<strong>促销价</strong>，并打印显示。</p>
+<pre><code class="language-python">label = &quot;品名：浓香原味奶茶；产地：中国；单位：瓶；原价：10.50元；促销价：5.25元&quot;
+name = label[3:9]
+print(f&quot;品名：{name}&quot;)
+
+price = label[-5:-1]
+print(f&quot;促销价：{price}元&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-5.png" /></p>
+<h2>8. 推敲</h2>
+<p>“推敲”一词源于诗人贾岛修改诗句“鸟宿池边树，僧推月下门”的故事。
+请你写一段程序，将这句诗关键部分用字符串替换功能改为我们熟悉的名句</p>
+<pre><code class="language-python">poem = &quot;鸟宿池边树，僧推月下门。&quot;
+poem_2 = poem.replace(&quot;僧推&quot;,&quot;僧敲&quot;)
+print(poem_2)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-6.png" /></p>
+<h2>9. VIP会员</h2>
+<p>购买了牛肉串和矿泉水的小强同学是便利店的VIP会员，全单享受九折优惠，他的会员卡里还有5.3元余额。
+请问小强同学最终要支付多少钱？
+编写程序计算下吧。</p>
+<pre><code class="language-python">beef_price = 5.0
+water_price = 2.0
+total = beef_price + water_price
+is_vip = True
+balance = 5.3
+
+if is_vip:
+    pay = total * 0.9
+else:
+    pay = total
+
+final_pay = pay - balance
+print(f&quot;牛肉串：{beef_price}元&quot;)
+print(f&quot;矿泉水：{water_price}元&quot;)
+print(f&quot;原价合计：{total}元&quot;)
+print(f&quot;VIP九折后：{pay}元&quot;)
+print(f&quot;扣除会员卡余额{balance}元&quot;)
+print(f&quot;最终支付：{final_pay}元&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-7.png" /></p>
+<h2>10. 正整数的位数</h2>
+<p>要判断一个正整数n有几位，可以采用的算法是：</p>
+<blockquote>
+<p>先求n的以10为底的对数，再用floor取对数值的“地板”整数，最后加1。</p>
+</blockquote>
+<p>请编写程序验证下<code>2035</code>和<code>32768</code>的位数。</p>
+<pre><code class="language-python">x = int(input(&quot;请输入一个正整数：&quot;))
+import math
+print(f&quot;{x}的位数为：{math.floor(math.log10(x)) + 1}&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-8.png" /></p>
+<h2>11. 串点售价</h2>
+<p>店员小王正在给进货的串点标记售价，串点售价是在进价的基础上加20%，四舍五入到角，但不超过3.5元
+那么：
+- 牛肉串的进价是3.0元，售价是多少？
+- 如果进价是2.8元呢？</p>
+<p>请编写程序验证下吧（提示：用min()函数）</p>
+<pre><code class="language-python">x = float(input(&quot;进价：&quot;))
+price = x * 1.2
+if price &gt; 3.5:
+    price = 3.5
+print(f&quot;售价：{round(price, 1)}元&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-9.png" /></p>
+<h2>12. 自动计算折扣</h2>
+<p>小明同学提议将计算VIP会员折扣自动化，店员小王输入打折前的金额，程序会自动按照VIP会员的九折，四舍五入到角，打印输出。</p>
+<blockquote>
+<p>例如：输入23.7，打印输出21.3。</p>
+</blockquote>
+<p>请编写一个这样的程序吧。</p>
+<pre><code class="language-python">x = float(input(&quot;请输入价：&quot;))
+vip_input = input(&quot;是否为VIP会员（是/否）：&quot;)
+is_vip = vip_input == &quot;是&quot;
+if is_vip:
+    pay = x * 0.9
+else:
+    pay = x
+print(f&quot;折扣后的价：{round(pay, 1)}元&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-10.png" /></p>
+<h2>13. 浮点数位数</h2>
+<p>在格式化字符串中，如果浮点数指定的小数点位数比数据对象的位数要少的话，是简单地截断还是四舍五入？
+请编写一个程序验证下吧。</p>
+<pre><code class="language-python">num = 3.1415926
+print(f&quot;原始值：{num}&quot;)
+print(f&quot;保留1位小数：{num:.1f}&quot;)
+print(f&quot;保留2位小数：{num:.2f}&quot;)
+print(f&quot;保留3位小数：{num:.3f}&quot;)
+print(f&quot;保留4位小数：{num:.4f}&quot;)
+print(&quot;结论：浮点数格式化时会进行四舍五入，不是简单截断&quot;)
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-11.png" /></p>
+<h2>14. 海龟作图练习</h2>
+<p>根据实践项目中的代码框架提示，补充作图语句，完成绘制各种图形的程序。</p>
+<h3>14.1 蓝色等边三角形</h3>
+<pre><code class="language-python">import turtle
+
+t = turtle.Turtle()
+t.color(&quot;blue&quot;)
+t.pensize(5)
+for _ in range(3):
+    t.forward(150)
+    t.left(120)
+
+turtle.done()
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-12.png" /></p>
+<h3>14.2 红心</h3>
+<pre><code class="language-python">import turtle
+
+t = turtle.Turtle()
+t.color(&quot;red&quot;)
+t.begin_fill()
+t.left(50)
+t.forward(133)
+t.circle(50, 200)
+t.right(140)
+t.circle(50, 200)
+t.forward(133)
+t.end_fill()
+
+turtle.done()
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-13.png" /></p>
+<h3>14.3 绿色晶体</h3>
+<pre><code class="language-python">import turtle
+
+t = turtle.Turtle()
+t.color(&quot;green&quot;)
+t.pensize(3)
+
+t.left(30)
+t.forward(80)
+t.left(120)
+t.forward(80)
+t.left(60)
+t.forward(80)
+t.left(120)
+t.forward(80)
+
+t.right(60)
+t.forward(80)
+
+t.left(120)
+t.forward(80)
+t.left(60)
+t.forward(80)
+t.left(120)
+t.forward(80)
+
+t.right(60)
+t.forward(80)
+t.left(120)
+t.forward(80)
+t.left(60)
+t.forward(80)
+t.left(120)
+t.forward(80)
+
+turtle.done()
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-14.png" /></p>
+<h3>14.4 砚台</h3>
+<pre><code class="language-python">import turtle
+
+t = turtle.Turtle()
+t.speed(2)
+
+
+t.color(&quot;black&quot;)
+t.begin_fill()
+for _ in range(4):
+    t.forward(200)
+    t.left(90)
+t.end_fill()
+
+t.penup()
+t.forward(180)
+t.left(90)
+t.forward(100)
+t.pendown()
+t.color(&quot;gray&quot;)
+t.begin_fill()
+t.circle(80)
+t.end_fill()
+
+turtle.done()
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-15.png" /></p>
+<h3>14.5 太极图</h3>
+<pre><code class="language-python">import turtle
+
+t = turtle.Turtle()
+t.speed(2)
+t.pensize(3)
+
+t.color(&quot;black&quot;)
+t.begin_fill()
+t.circle(100,180)
+t.end_fill()
+
+t.circle(100,180)
+
+t.penup()
+t.left(90)
+t.forward(100)
+t.right(90)
+t.pendown()
+t.color(&quot;white&quot;)
+t.begin_fill()
+t.circle(50, 180)
+t.end_fill()
+
+t.penup()
+t.left(90)
+t.forward(100)
+t.right(90)
+t.pendown()
+t.color(&quot;black&quot;)
+t.begin_fill()
+t.circle(50, 180)
+t.end_fill()
+
+t.penup()
+t.left(90)
+t.forward(40)
+t.right(90)
+t.pendown()
+t.color(&quot;white&quot;)
+t.begin_fill()
+t.circle(10)
+t.end_fill()
+
+t.penup()
+t.left(90)
+t.forward(100)
+t.right(90)
+t.pendown()
+t.color(&quot;black&quot;)
+t.begin_fill()
+t.circle(10)
+t.end_fill()
+
+t.penup()
+t.left(90)
+t.forward(60)
+t.left(90)
+t.pendown()
+t.circle(100)
+
+
+
+turtle.done()
+</code></pre>
+<p>(运行结果截图)
+<img alt="alt text" src="image-16.png" /></p>
+<h2>15. 绘制三角警示牌</h2>
+<p>参考海龟函数
+- 填充：begin_fill, end_fill
+- 画圆：circle、画点：dot</p>
+<p>编写海龟作图程序，绘制一个边长可以在100～300之间任意取值的三角警示牌。由变量n来控制边长大小。</p>
+<p>画得接近目标图就好，n在指定范围变化的时候，绘制出的不同大小三角警示牌要保持不变形。</p>
+<pre><code class="language-python">import turtle
+import numpy as np
+import random
+
+t = turtle.Turtle()
+t.speed(2)
+t.pensize(3)
+
+n = int(input(&quot;请输入边长n（100-300）：&quot;))
+if n &lt; 100 or n &gt; 300:
+    print(&quot;边长必须在100-300之间&quot;)
+else:
+    t.color('yellow')
+    t.begin_fill()
+    t.forward(n)
+    t.left(120)
+    t.forward(n)
+    t.left(120)
+    t.forward(n)
+    t.end_fill()
+
+    t.color('black')
+    t.begin_fill()
+    t.left(120)
+    t.forward(n)
+    t.left(120)
+    t.forward(n)
+    t.left(120)
+    t.forward(n)
+
+    t.penup()
+    t.left(150)
+    t.forward(np.sqrt(3)*n/16)
+    t.left(30)
+    t.pendown()
+    t.forward(n-3*n/16)
+    t.right(120)
+    t.forward(n-3*n/16)
+    t.right(120)
+    t.forward(n-3*n/16)
+    t.end_fill()
+
+    t.penup()
+    t.right(180)
+    t.forward(13*n/32)
+    t.left(90)
+    t.forward(n/8)
+    t.pendown()
+    t.dot(n/12)
+
+    t.penup()
+    t.forward(n/12)
+    t.left(10)
+    t.pendown()
+    t.color('black')
+    t.begin_fill()
+    t.forward(n/4)
+    t.right(100)
+    t.forward(n/12)
+    t.right(100)
+    t.forward(n/4)
+    t.end_fill()
+
+    t.penup()
+    t.right(160)
+    t.forward(n/4)
+    t.right(10) 
+    t.pendown()
+
+    t.color('black')
+    t.begin_fill()
+    t.circle(-n/24,180)
+    t.end_fill()    
+
+turtle.done()
+</code></pre>
+<p>(运行结果截图1，n=100)
+<img alt="alt text" src="image-17.png" />
+(运行结果截图2，n=160)
+<img alt="alt text" src="image-18.png" />
+(运行结果截图3，n=220)
+<img alt="alt text" src="image-19.png" />
+(运行结果截图4，n=300)
+<img alt="alt text" src="image-20.png" /></p>
+<h2>16. 两种状态的事情</h2>
+<p>在便利店应用场景或学习生活中，还有哪些事情是恰好两种状态的？请举几个例子。</p>
+<p>（答案写这里）
+<strong>便利店场景</strong>
+1. 商品是否过期
+2. 商品是否被购买
+3. VIP是否续费
+4. 顾客是否需要袋子
+5. 顾客是否需要用现金支付</p>
+<p><strong>学习生活场景</strong>
+1. 作业是否完成
+2. 考试是否及格
+3. 是否佩戴眼镜
+4. 是否吃过早饭
+5. 是否看过群公告</p>
+<h2>17. 优惠活动</h2>
+<p>便利店的优惠活动还在继续，规则改为“<strong>VIP会员全单九折，普通会员串点九折</strong>”，
+请你写一段程序，让店员小王先输入会员号，再输入商品名称，打印出是否享受优惠，享受九折优惠打印<code>True</code>，否则打印<code>False</code>。</p>
+<blockquote>
+<p>提示，用两个<code>input()</code>函数分别得到会员号和商品名称</p>
+</blockquote>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h2>18. 周末折扣</h2>
+<p>便利店的周末折扣是“<strong>全场九折，奶茶和串点八折，VIP会员全场八折</strong>”
+请用三元表达式和any()函数写出折扣计算表达式，编写程序试试吧。</p>
+<blockquote>
+<p>提示，用两个<code>input()</code>函数分别得到会员号和商品名称</p>
+</blockquote>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h2>19. 基本表达式练习（OJ）</h2>
+<p>完成OJ编程练习题
+- http://python.openjudge.cn/basic_expr/ </p>
+<p>(11题全部通过的表格截图)</p>
+<h3>19.1 1001 A+B问题</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>19.2 1002 将一个三位数反向输出</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>19.3 1003 求出圆的周长和面积</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>18.4 1004 球的体积</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>18.5 1005 计算电阻</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>18.6 1006 等差数列末项计算</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>18.7 1007 计算分数的浮点数值</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>18.8 1008 计算平均数</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>18.9 1009 商和余数</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>18.10 1010 苹果和虫子</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+<h3>18.11 1011 斜边上的高</h3>
+<pre><code class="language-python"># 程序写这里
+
+</code></pre>
+<p>(运行结果截图)</p>
+</body>
+</html>

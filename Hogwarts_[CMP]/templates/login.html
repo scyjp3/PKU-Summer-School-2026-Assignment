@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>霍格沃茨 - 作业管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="magic-circle"></div>
+        <div class="magic-circle-2"></div>
+        <div class="magic-circle-3"></div>
+        
+        <div class="login-box">
+            <div class="logo-section">
+                <div class="hogwarts-logo">
+                    <span class="logo-icon">⚡</span>
+                </div>
+                <h1 class="title">霍格沃茨</h1>
+                <p class="subtitle">Hogwarts School of Witchcraft and Wizardry</p>
+            </div>
+            
+            <div class="form-section">
+                <h2 class="form-title">学生登录</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">🧙</span>
+                            学号
+                        </label>
+                        <input type="text" id="username" class="form-input" placeholder="输入你的学号" autocomplete="off">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">🔮</span>
+                            密钥
+                        </label>
+                        <input type="password" id="password" class="form-input" placeholder="输入你的密钥">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">🏠</span>
+                            学院
+                        </label>
+                        <select id="house" class="form-select">
+                            <option value="gryffindor">格兰芬多 - Gryffindor</option>
+                            <option value="slytherin">斯莱特林 - Slytherin</option>
+                            <option value="hufflepuff">赫奇帕奇 - Hufflepuff</option>
+                            <option value="ravenclaw">拉文克劳 - Ravenclaw</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <span class="btn-icon">✨</span>
+                        进入城堡
+                    </button>
+                </form>
+                
+                <div class="demo-info">
+                    <p class="demo-text">🗝️ 演示账户：harry / potter</p>
+                    <p class="demo-text">🗝️ 演示账户：hermione / granger</p>
+                </div>
+            </div>
+            
+            <div class="footer-spell">
+                <p>"你是个巫师，哈利！"</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
